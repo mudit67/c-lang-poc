@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-RUN apk add --no-cache mpc1-dev
+RUN apk add --no-cache build-base
 
 WORKDIR /code
 COPY . .
