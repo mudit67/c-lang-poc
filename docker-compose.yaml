@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  c-poc:
+    build: ./
+    image: c-poc
+    container_name: c-poc-con
+    volumes:
+      - ./:/code
