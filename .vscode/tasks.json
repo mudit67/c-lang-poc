@@ -6,7 +6,7 @@
     {
       "label": "RUN C file",
       "type": "shell",
-      "command": "gcc -o ${workspaceFolder}/executables/${fileBasenameNoExtension} ${file} && ${workspaceFolder}/executables/${fileBasenameNoExtension}",
+      "command": "gcc -o ${workspaceFolder}/executables/${fileBasenameNoExtension} ${file} -lm && ${workspaceFolder}/executables/${fileBasenameNoExtension}",
       "presentation": {
         "echo": true,
         "reveal": "always",

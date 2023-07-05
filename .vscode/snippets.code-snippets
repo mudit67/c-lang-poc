@@ -33,6 +33,14 @@
   "Input a float numbers": {
     "prefix": ["fl1", "float1"],
     "body": "float ${0};\nscanf(\"%f\",&${0});"
+  },
+  "Include Math Libarary": {
+    "prefix": "math",
+    "body": "#include <math.h>"
+  },
+  "Multiple Line Comment": {
+    "prefix": "mc",
+    "body": "/*\n${0}\n*/"
   }
   // Place your C-lang workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
   // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
