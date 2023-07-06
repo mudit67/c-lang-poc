@@ -30,7 +30,7 @@ int main()
             min = num;
         }
     }
-    int r = max - min;
-    printf("The Range is: %d\n", r);
+    // int r = max - min; // Don't need this.
+    printf("The Range is: %d\n", max - min); // This works just fine.
     return 0;
 }
