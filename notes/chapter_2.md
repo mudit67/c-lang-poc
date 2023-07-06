@@ -20,3 +20,4 @@ ar = base / 2 * h;   // output: 4
 ar = (base * h) / 2; // output: 5
 ```
 
+Division only gives accurate answer if atleast one of the operands is a float/double. [Read more...](https://stackoverflow.com/questions/7571326/why-does-dividing-two-int-not-yield-the-right-value-when-assigned-to-double)
