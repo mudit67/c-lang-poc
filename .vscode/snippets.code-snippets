@@ -1,26 +1,46 @@
 {
 	"Flush Std": {
-		"prefix": ["stdf", "ffstd", "ffs"],
+		"prefix": [
+			"stdf",
+			"ffstd",
+			"ffs"
+		],
 		"body": "fflush(stdout);",
 		"scope": "c"
 	},
 	"Print New Line": {
-		"prefix": ["pn"],
+		"prefix": [
+			"pn"
+		],
 		"body": "printf(\"${0}\\n\");",
 		"scope": "c"
 	},
 	"Flush out new line": {
-		"prefix": ["pns"],
+		"prefix": [
+			"pns"
+		],
 		"body": "printf(\"${0}\\n\");\nfflush(stdout);",
 		"scope": "c"
 	},
 	"Flush our print": {
-		"prefix": ["pst"],
+		"prefix": [
+			"pst"
+		],
 		"body": "printf(\"${0}\");\nfflush(stdout);"
 	},
 	"Input 1 Integer": {
-		"prefix": ["in1", "int1"],
+		"prefix": [
+			"in1",
+			"int1"
+		],
 		"body": "int ${0};\nscanf(\"%d\",&${0});"
+	},
+	"Input 2 Integers": {
+		"prefix": [
+			"in2",
+			"int2"
+		],
+		"body": "int ${1}, ${2};\nscanf(\"%d %d\",&${1},&${2});"
 	},
 	"Initialize a new file with stdio.h": {
 		"prefix": "initio",
@@ -31,7 +51,10 @@
 		"body": "int main(){\n\t${0}\n\treturn 0;\n}"
 	},
 	"Input a float numbers": {
-		"prefix": ["fl1", "float1"],
+		"prefix": [
+			"fl1",
+			"float1"
+		],
 		"body": "float ${0};\nscanf(\"%f\",&${0});"
 	},
 	"Include Math Libarary": {

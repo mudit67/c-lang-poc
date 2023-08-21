@@ -1,4 +1,6 @@
-#### The reason all the calculators use the "e" format for representing very large or very small values
+# Introduction to C
+
+The reason all the calculators use the "e" format for representing very large or very small values
 
 > Because majority of them used either C or BASIC to write their code.
 > [Read more...](https://en.wikipedia.org/wiki/Programmable_calculator#:~:text=On%2Dboard%20programming%20tools%20which,TI%2D83%20BBC%20Basic%20port.)
@@ -14,3 +16,5 @@
 - Will have to use fflush(stdout) after every printf statement to "flush" out all the data in the output buffer. Input and output have different bufferstreams
 
 - It is best to first multiply all the parts of the numerator the divide by the demoninator. example- instead of 22/7\*r\*r write (22\*r\*r)/7
+
+- Scanf doesn't register newline when taking input as integer.
