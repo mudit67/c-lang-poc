@@ -31,7 +31,8 @@ switch(i){
     // ...
     case 3:
     // ...
-    case 2+1;
+    case 2+1:
+		// Becasue these two case represent the same value.
 }
 ```
 
