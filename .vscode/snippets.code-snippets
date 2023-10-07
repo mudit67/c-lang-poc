@@ -34,6 +34,11 @@
 			"int1"
 		],
 		"body": "int ${0};\nscanf(\"%d\",&${0});"
+	},	"Input a String": {
+		"prefix": [
+			"str1",
+		],
+		"body": "char ${1}[${0}];\nscanf(\"%s\",${1});"
 	},
 	"Input 2 Integers": {
 		"prefix": [
