@@ -39,5 +39,6 @@
 	"editor.tabSize": 2,
 	"editor.insertSpaces": false,
 	"editor.detectIndentation": false,
-	"terminal.integrated.fontFamily": "meslolgs nf"
+	"terminal.integrated.fontFamily": "meslolgs nf",
+	"makefile.compileCommandsPath": ".vscode/compile_commands.json"
 }
