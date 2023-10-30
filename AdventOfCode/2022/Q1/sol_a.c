@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #define LINE_MAX 10
+int comparator(const void *p, const void *q) {
+  int m = *(int *)p;
+  int n = *(int *)q;
+  return n - m;
+}
 int strToInt(char str[]) {
   // printf("Converting: %s", str);
   int i = 0, intToReturn = 0;
@@ -72,5 +77,9 @@ int main() {
   printf("Loop Ended.\nMax Sum: %d. Max Sum Index: %d \n \nLength of array "
          "was: %d",
          max_sum, max_index, len_arr);
+  qsort(sum_arr, len_arr, sizeof(int), comparator);
+
+  printf("Top three elves:\n%d\n%d\n%d\n\nSum: %d", sum_arr[0], sum_arr[1],
+         sum_arr[2], (sum_arr[0] + sum_arr[1] + sum_arr[2]));
   return 0;
 }
