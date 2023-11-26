@@ -1,9 +1,6 @@
-// #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#define CAPACITY 1000000
 int strComLen(char *str1, char *str2, int len) {
   for (int i = 0; (i < len); i++) {
     if (!((*(str1 + i) - *(str2 + i)) == 0)) {
@@ -42,46 +39,47 @@ void printStrArr(char ***strArr, int rows, int *columns) {
 int comparator(const void *p, const void *q) { return *(char *)p - *(char *)q; }
 
 int hash(int capacity, char *key, int keyLen) {
-  // printf("Creating hash for:%s ", key);
-  // int keyLen = strlen(key);
   unsigned long int keyInt = 5381;
   for (int i = 0; i < keyLen; i++) {
-    // printf("Current Hash: %ld", keyInt);
-    // keyInt = ((keyInt * 26) + (*keyCopy - 'a'));
-    // keyInt = (keyInt * 31 + (*key));
     keyInt = ((keyInt << 5) + keyInt) + *key;
     key++;
   }
-  // keyInt *= 0.34567;
   keyInt += keyLen;
-  // keyInt += keyLen;
-  // printf(": %ld  ", keyInt);
   keyInt %= capacity;
-  // printf(":%ld\n", keyInt);
   return keyInt;
 };
+void InsertNewAt(hashmap *hm, node *newNode, int index) {
+  hm->numberOfElements++;
+  newNode->columnSize = 1;
+  newNode->next = NULL;
+  hm->arr[index] = newNode;
+}
+void InsertAtLateral(hashmap *hm, node *newNode, int index) {
+  hm->arr[index]->columnSize++;
+  newNode->columnSize = hm->arr[index]->columnSize;
+  newNode->next = hm->arr[index];
+  hm->arr[index] = newNode;
+}
 void insert(hashmap *hm, char *key, char *value, int keyLen, int *collisions) {
-  // printf("inserting new node: %s\n", key);
-  fflush(stdout);
   int index = hash(hm->capacity, key, keyLen);
-
-  struct node *newNode = (struct node *)malloc(sizeof(struct node));
+  struct node *newNode = malloc(sizeof(struct node));
   if (newNode == NULL) {
-    printf("Malloc returned Null\n");
+    // Handle memory allocation failure
+    printf("Memory Allocation Failed!\n");
+    exit(EXIT_FAILURE);
   }
+  printf("Created a new node\n");
   newNode->key = key;
   newNode->value = value;
+  if (newNode->key == NULL || newNode->value == NULL) {
+    // Handle memory allocation failure
+    exit(EXIT_FAILURE);
+  }
   if (hm->arr[index] == NULL) {
-    hm->numberOfElements++;
-    newNode->columnSize = 1;
-    newNode->next = NULL;
-    hm->arr[index] = newNode;
+    InsertNewAt(hm, newNode, index);
   } else {
     // Handling Collisions
-    // printf("Collision: %s %s\n", hm->arr[index]->key, newNode->key);
-
     if (strComLen(hm->arr[index]->key, newNode->key, keyLen)) {
-      // printf("Collision: ");
       // Handling Different Key Collisions
       *collisions += 1;
       index++;
@@ -97,32 +95,13 @@ void insert(hashmap *hm, char *key, char *value, int keyLen, int *collisions) {
           index = 0;
       }
       if (hm->arr[index] == NULL) {
-        hm->numberOfElements++;
-        newNode->columnSize = 1;
-        newNode->next = NULL;
-        hm->arr[index] = newNode;
+        InsertNewAt(hm, newNode, index);
       } else {
-        hm->arr[index]->columnSize++;
-        newNode->columnSize = hm->arr[index]->columnSize;
-        newNode->next = hm->arr[index];
-        hm->arr[index] = newNode;
+        InsertAtLateral(hm, newNode, index);
       }
-      // while (strComLen(hm->arr[index]->key, newNode->key, keyLen)) {
-      //   index *= 2;
-      //   if (index >= hm->capacity)
-      //     index = 0;
-      // }
-
     } else {
       // Handling Same Key Collisions
-      hm->arr[index]->columnSize++;
-
-      newNode->columnSize = hm->arr[index]->columnSize;
-
-      // printf("Current Column Size: %d %d\n", hm->arr[index]->columnSize,
-      //        newNode->columnSize);
-      newNode->next = hm->arr[index];
-      hm->arr[index] = newNode;
+      InsertAtLateral(hm, newNode, index);
     }
   }
 }
@@ -180,17 +159,13 @@ char ***groupAnagrams(char **strs, int strsSize, int *returnSize,
     keyCopy -= keyLen;
     qsort((void *)keyCopy, keyLen, sizeof(char), comparator);
     insert(mp, keyCopy, strs[i], keyLen, &collisions);
-    if (mp->numberOfElements == mp->capacity) {
+    if (mp->numberOfElements == (mp->capacity - 1)) {
       increaseSize(mp, &collisions);
     }
   }
   *returnSize = mp->numberOfElements;
 
   printf("\nDifferent Key Collisions: %d\n\n\n", collisions);
-
-  // printf("Return Size: %d\n", *returnSize);
-  // fflush(stdout);
-
   // Allocating Memory to return data
   char ***returnArr = (char ***)malloc(sizeof(char **) * mp->numberOfElements);
   *returnColumnSizes = (int *)malloc(sizeof(int) * mp->numberOfElements);
@@ -200,14 +175,7 @@ char ***groupAnagrams(char **strs, int strsSize, int *returnSize,
   for (int i = 0; i < mp->capacity; i++) {
     node *currentNode = mp->arr[i];
     if (currentNode != NULL) {
-
       int columnSize = currentNode->columnSize;
-
-      // printf("Creating a String Array of length: %d\n",
-      //  currentNode->columnSize);
-
-      // char **strArr = (char **)malloc(sizeof(char *) * columnSize);
-
       returnArr[currentStrArrIndex] =
           (char **)malloc(sizeof(char *) * columnSize);
       *(*returnColumnSizes + currentStrArrIndex) = 0;
@@ -216,11 +184,6 @@ char ***groupAnagrams(char **strs, int strsSize, int *returnSize,
         char *value = currentNode->value;
         returnArr[currentStrArrIndex][innerArrIndex] =
             (char *)malloc(sizeof(char) * (strlen(value) + 1));
-        // printf("Adding %s to returnArr. Position: %d/%d   %d/%d\n", value,
-        //        currentStrArrIndex, mp->numberOfElements, innerArrIndex,
-        //        columnSize);
-        // returnArr[currentStrArrIndex][innerArrIndex++] = value;
-        // strcpy(returnArr[currentStrArrIndex][innerArrIndex++], value);
         returnArr[currentStrArrIndex][innerArrIndex++] = strdup(value);
         currentNode = currentNode->next;
         *(*returnColumnSizes + currentStrArrIndex) += 1;
@@ -290,22 +253,7 @@ int main() {
   strArr[49] = "improves";
   strArr[50] = "misread";
   strArr[51] = "admires";
-  // Test Case 2
-
-  // strArr[0]="hhhhu";
-  // strArr[1]="tttti";
-  // strArr[2]="tttit";
-  // strArr[3]="hhhuh";
-  // strArr[4]="hhuhh";
-  // strArr[5]="tittt";
-
-  // Test Case 3
-
-  // strArr[0] = "";
-  // strArr[1] = "b";
   int size;
-  // int **columnSize = (int **)malloc(sizeof(int *) * 100);
-  // int columnSize[strSize];
   int *columnSize;
   groupAnagrams(strArr, strSize, &size, &columnSize);
   return 0;
