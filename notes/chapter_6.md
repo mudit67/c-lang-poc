@@ -23,4 +23,6 @@ fflush();
 
 This function is used to "flush out" whatever data is inside the buffer.<br/>
 stdout - for output data buffer<br/>
-stdin - input data buffer
+stdin - input data buffer [DOES NOT WORK]
+
+![Alt text](./images/image3.png)
